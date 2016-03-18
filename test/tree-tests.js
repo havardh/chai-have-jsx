@@ -17,6 +17,12 @@ describe('tree', () => {
 
       expect(top.children.length).to.equal(1);
     });
+
+    it('should add css classes to div', () => {
+      const div = create(<div className="test" />);
+
+      expect(div.classes).to.deep.equal(['test']);
+    });
   });
 
   describe('.format', () => {

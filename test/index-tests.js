@@ -10,8 +10,12 @@ describe('expect(<jsx />).equal(<jsx />)', () => {
   it('returns false for <span />', () => {
     expect(<span />).to.not.equal(<div />);
   });
-});
 
-describe('.have.jsx.containing(<div />)', () => {
+  it('returns true when classes match', () => {
+    expect(<div className="match" />).to.equal(<div className="match" />);
+  });
 
+  it('returns false when calles mismatch', () => {
+    expect(<div className="mis" />).to.not.equal(<div className="match" />);
+  });
 });
