@@ -15,7 +15,7 @@ describe('expect(<jsx />).equal(<jsx />)', () => {
     expect(<div className="match" />).to.equal(<div className="match" />);
   });
 
-  it('returns false when calles mismatch', () => {
+  it('returns false when classes mismatch', () => {
     expect(<div className="mis" />).to.not.equal(<div className="match" />);
   });
 });
