@@ -3,7 +3,7 @@ import _ from 'lodash';
 export function format(tree) {
   if (tree.children.length) {
     return `<${tree.name}${formatClasses(tree.classes)}>` +
-       `${_.map(tree.children, format)}` +
+       `${_.map(tree.children, format).join('')}` +
      `</${tree.name}>`;
   } else {
     return `<${tree.name}${formatClasses(tree.classes)} />`;

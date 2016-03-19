@@ -17,4 +17,10 @@ describe('.format', () => {
 
     expect(html).to.equal('<div><div /></div>');
   });
+
+  it('should print multiple children', () => {
+    const html = format(create(<div><div /><div /></div>));
+
+    expect(html).to.equal('<div><div /><div /></div>');
+  });
 });
