@@ -23,7 +23,7 @@ export default function haveJsx(Chai) {
 
         return this.assert(equal(thisObj, thatObj),
           `Expected: ${format(thisObj)} to equal: ${format(thatObj)}`,
-          `Expected: ${thisObj} to not equal: ${thatObj}`);
+          `Expected: ${format(thisObj)} to not equal: ${format(thatObj)}`);
       } else {
         return _super.call(this, tag, ...args);
       }
@@ -42,7 +42,7 @@ export default function haveJsx(Chai) {
 
         return this.assert(match(thisObj, thatObj),
           `Expected: ${format(thisObj)} to match: ${format(thatObj)}`,
-          `Expected: ${thisObj} to not match: ${thatObj}`);
+          `Expected: ${format(thisObj)} to not match: ${format(thatObj)}`);
       } else {
         return _super.call(this, tag, ...args);
       }
