@@ -2,7 +2,7 @@
 import React from 'react';
 import { expect } from 'chai';
 
-import { create, format } from '../src/tree';
+import { create } from '../src/tree';
 
 describe('tree', () => {
   describe('.create', () => {
@@ -22,20 +22,6 @@ describe('tree', () => {
       const div = create(<div className="test" />);
 
       expect(div.classes).to.deep.equal(['test']);
-    });
-  });
-
-  describe('.format', () => {
-    it('should print empty tags', () => {
-      const html = format(create(<div />));
-
-      expect(html).to.equal('<div />');
-    });
-
-    it('should print tags with children', () => {
-      const html = format(create(<div><div /></div>));
-
-      expect(html).to.equal('<div><div /></div>');
     });
   });
 });

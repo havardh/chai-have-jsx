@@ -1,4 +1,5 @@
-import { create, format } from './tree';
+import { create } from './tree';
+import { format } from './format';
 import { equal, match } from './matchers';
 
 export default function haveJsx(Chai) {
