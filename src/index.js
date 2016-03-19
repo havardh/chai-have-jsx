@@ -1,5 +1,5 @@
-import _ from 'lodash';
 import { create, format } from './tree';
+import { equal, match } from './matchers';
 
 export default function haveJsx(Chai) {
   const Assertion = Chai.Assertion;
@@ -20,7 +20,7 @@ export default function haveJsx(Chai) {
         const thisObj = create(obj);
         const thatObj = create(tag);
 
-        return this.assert(_.isEqual(thisObj, thatObj),
+        return this.assert(equal(thisObj, thatObj),
           `Expected: ${format(thisObj)} to equal: ${format(thatObj)}`,
           `Expected: ${thisObj} to not equal: ${thatObj}`);
       } else {
@@ -30,13 +30,6 @@ export default function haveJsx(Chai) {
   }
 
   Assertion.overwriteMethod('equal', assertJsxEqual);
-
-  function match(thisTree, thatTree) {
-    if (_.isEqual(thisTree, thatTree)) {
-      return true;
-    }
-    return false;
-  }
 
   function assertJsxMatch(_super) {
     return function evaluateComponent(tag, ...args) {
