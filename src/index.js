@@ -1,76 +1,24 @@
-import { create } from './tree';
-import { format } from './format';
+import { create } from './asserter';
 import { equal, match, contain } from './matchers';
 
 export default function haveJsx(Chai) {
   const Assertion = Chai.Assertion;
 
-  function isJsx(obj) {
-    return obj
-      && obj.hasOwnProperty('type')
-      && obj.hasOwnProperty('key')
-      && obj.hasOwnProperty('ref')
-      && obj.hasOwnProperty('props');
+  overwriteMethod('equal', equal);
+  overwriteMethod('match', match);
+  overwriteChainableMethod('contain', contain);
+
+  function overwriteMethod(name, method) {
+    const asserter = create(name, method);
+    Assertion.overwriteMethod(name, asserter);
   }
 
-  function assertJsxEqual(_super) {
-    return function evaluateComponent(tag, ...args) {
-      const obj = this._obj;
-
-      if (isJsx(obj) && isJsx(tag)) {
-        const thisObj = create(obj);
-        const thatObj = create(tag);
-
-        return this.assert(equal(thisObj, thatObj),
-          `Expected: ${format(thisObj)} to equal: ${format(thatObj)}`,
-          `Expected: ${format(thisObj)} to not equal: ${format(thatObj)}`);
-      } else {
-        return _super.call(this, tag, ...args);
+  function overwriteChainableMethod(name, method) {
+    const asserter = create(name, method);
+    Assertion.overwriteChainableMethod(name, asserter,
+      function chainingBehavior(_super) {
+        return () => _super.call(this);
       }
-    };
+    );
   }
-
-  Assertion.overwriteMethod('equal', assertJsxEqual);
-
-  function assertJsxMatch(_super) {
-    return function evaluateComponent(tag, ...args) {
-      const obj = this._obj;
-
-      if (isJsx(obj) && isJsx(tag)) {
-        const thisObj = create(obj);
-        const thatObj = create(tag);
-
-        return this.assert(match(thisObj, thatObj),
-          `Expected: ${format(thisObj)} to match: ${format(thatObj)}`,
-          `Expected: ${format(thisObj)} to not match: ${format(thatObj)}`);
-      } else {
-        return _super.call(this, tag, ...args);
-      }
-    };
-  }
-
-  Assertion.overwriteMethod('match', assertJsxMatch);
-
-  function assertJsxContain(_super) {
-    return function evaluateComponent(tag, ...args) {
-      const obj = this._obj;
-
-      if (isJsx(obj) && isJsx(tag)) {
-        const thisObj = create(obj);
-        const thatObj = create(tag);
-
-        return this.assert(contain(thisObj, thatObj),
-          `Expected: ${format(thisObj)} to contain: ${format(thatObj)}`,
-          `Expected: ${format(thisObj)} to not contain: ${format(thatObj)}`);
-      } else {
-        return _super.call(this, tag, ...args);
-      }
-    };
-  }
-
-  function chainingBehavior(_super) {
-    return () => _super.call(this);
-  }
-
-  Assertion.overwriteChainableMethod('contain', assertJsxContain, chainingBehavior);
 }
