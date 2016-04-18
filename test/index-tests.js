@@ -61,3 +61,9 @@ describe('expect(<jsx />).to.match(<jsx />)', () => {
     );
   });
 });
+
+describe('expect(<jsx />).to.contain(<jsx />)', () => {
+  it('returns true for equal node', () => {
+    expect(<div />).to.contain(<div />);
+  });
+});

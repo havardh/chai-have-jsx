@@ -1,6 +1,6 @@
 import { create } from './tree';
 import { format } from './format';
-import { equal, match } from './matchers';
+import { equal, match, contain } from './matchers';
 
 export default function haveJsx(Chai) {
   const Assertion = Chai.Assertion;
@@ -50,4 +50,27 @@ export default function haveJsx(Chai) {
   }
 
   Assertion.overwriteMethod('match', assertJsxMatch);
+
+  function assertJsxContain(_super) {
+    return function evaluateComponent(tag, ...args) {
+      const obj = this._obj;
+
+      if (isJsx(obj) && isJsx(tag)) {
+        const thisObj = create(obj);
+        const thatObj = create(tag);
+
+        return this.assert(contain(thisObj, thatObj),
+          `Expected: ${format(thisObj)} to contain: ${format(thatObj)}`,
+          `Expected: ${format(thisObj)} to not contain: ${format(thatObj)}`);
+      } else {
+        return _super.call(this, tag, ...args);
+      }
+    };
+  }
+
+  function chainingBehavior(_super) {
+    return () => _super.call(this);
+  }
+
+  Assertion.overwriteChainableMethod('contain', assertJsxContain, chainingBehavior);
 }

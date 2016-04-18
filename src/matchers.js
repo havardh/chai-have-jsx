@@ -36,3 +36,7 @@ function matchNode(thisNode, thatNode) {
   return thisNode.name === thatNode.name &&
     _.isEqual(thisNode.classes, thatNode.classes);
 }
+
+export function contain(thisTree, thatTree) {
+  return equal(thisTree, thatTree);
+}
