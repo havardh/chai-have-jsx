@@ -28,4 +28,20 @@ describe('expect(<jsx />).to.match(<jsx />)', () => {
   it('returns true for nested div', () => {
     expect(<div><div /></div>).to.match(<div><div /></div>);
   });
+
+  it('returns true when path is found', () => {
+    expect(
+      <div><div /><div /></div>
+    ).to.match(
+      <div><div /></div>
+    );
+  });
+
+  it('returns false when path is not found', () => {
+    expect(
+      <div><div /><div /></div>
+    ).to.not.match(
+      <div><div><div /></div></div>
+    );
+  });
 });
