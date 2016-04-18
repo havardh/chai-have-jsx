@@ -21,11 +21,43 @@ describe('expect(<jsx />).to.equal(<jsx />)', () => {
 });
 
 describe('expect(<jsx />).to.match(<jsx />)', () => {
-  it('returns true for <div />', () => {
+  it('returns true for simple equal nodes', () => {
     expect(<div />).to.match(<div />);
   });
 
-  it('returns true for nested div', () => {
+  it('returns true for simple equal trees', () => {
     expect(<div><div /></div>).to.match(<div><div /></div>);
+  });
+
+  it('returns true when matching container', () => {
+    expect(<div><span /></div>).to.match(<div />);
+  });
+
+  it('returns false when not matching container', () => {
+    expect(<div><span /></div>).to.not.match(<span />);
+  });
+
+  it('returns true when tree is contained', () => {
+    expect(
+      <div><div /><div /></div>
+    ).to.match(
+      <div><div /></div>
+    );
+  });
+
+  it('returns false when tree is not contained', () => {
+    expect(
+      <div><div /><div /></div>
+    ).to.not.match(
+      <div><div><div /></div></div>
+    );
+  });
+
+  it('returns false when order does not match', () => {
+    expect(
+      <div><div /><div><div /></div></div>
+    ).to.not.match(
+      <div><div><div /></div><div /></div>
+    );
   });
 });
